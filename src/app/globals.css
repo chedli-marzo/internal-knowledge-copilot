@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+/* Class-based dark mode so the Header theme switch can toggle `.dark` on <html>.
+   (Default Tailwind v4 dark mode follows the OS only — we want a manual switch.) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens — AI Knowledge Copilot
+   Raw values defined as CSS variables here, then mapped into Tailwind's
+   theme below via @theme inline so utilities (bg-primary, text-muted, ...)
+   resolve to these variables and switch with the .dark class at runtime.
+--------------------------------------------------------------------------- */
+
+:root {
+  /* Surfaces */
+  --background: #ffffff;
+  --surface: #f9fafb;
+  --surface-secondary: #f3f4f6;
+
+  /* Borders */
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+
+  /* Text */
+  --foreground: #111827;        /* text.primary  */
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+
+  /* Primary (actions) */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-foreground: #ffffff;
+
+  /* Status */
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  /* Feature */
+  --citation: #eef2ff;
+
+  /* Focus ring */
+  --ring: #2563eb;
+
+  /* shadcn semantic aliases (map onto the palette above) */
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
+  --secondary: var(--surface-secondary);
+  --secondary-foreground: var(--foreground);
+  --muted: var(--surface-secondary);
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--surface-secondary);
+  --accent-foreground: var(--foreground);
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+}
+
+.dark {
+  --background: #0f172a;
+  --surface: #111827;
+  --surface-secondary: #1f2937;
+
+  --border: #374151;
+  --input: #374151;
+
+  --foreground: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --primary-foreground: #ffffff;
+
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  --citation: #1e293b;
+
+  --ring: #3b82f6;
+}
+
+@theme inline {
+  /* Colors */
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-secondary: var(--surface-secondary);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+
+  --color-foreground: var(--foreground);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --color-citation: var(--citation);
+  --color-ring: var(--ring);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  /* Typography */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 32px;
+
+  /* Radius (spec: sm 6 / md 10 / lg 14 / xl 18) */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+
+  /* Shadows — subtle only, never glow/neon */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
