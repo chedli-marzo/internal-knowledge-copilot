@@ -6,7 +6,9 @@
   "description": "Reusable AI building blocks: provider abstraction, embeddings, tools, RAG.",
   "exports": {
     "./chat": "./chat/index.ts",
-    "./embeddings": "./embeddings/index.ts"
+    "./embeddings": "./embeddings/index.ts",
+    "./rag": "./rag/index.ts",
+    "./tools": "./tools/index.ts"
   },
   "dependencies": {
     "ai": "^6.0.209",

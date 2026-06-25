@@ -2,7 +2,7 @@ import { extractText } from "unpdf";
 
 import { prisma } from "@/lib/db";
 import { embedDocuments } from "@ikc/ai-core/embeddings";
-import { chunkText } from "@/lib/chunk";
+import { chunkText } from "@ikc/ai-core/rag";
 
 /**
  * Ingest a PDF (T1-5): extract text per page -> chunk -> embed -> store with

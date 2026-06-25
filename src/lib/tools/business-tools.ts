@@ -1,5 +1,5 @@
-import { tool } from "ai";
 import { z } from "zod";
+import { tool, logToolCall } from "@ikc/ai-core/tools";
 
 /**
  * Business tools the LLM can call (T1-3).
@@ -36,7 +36,7 @@ export const getOrder = tool({
     id: z.string().describe("The order id, e.g. 1234"),
   }),
   execute: async ({ id }) => {
-    console.log("[tool] getOrder", { id });
+    logToolCall("getOrder", { id });
     return ORDERS[id] ?? { error: `No order found with id ${id}` };
   },
 });
@@ -47,7 +47,7 @@ export const getCustomer = tool({
     id: z.string().describe("The customer id, e.g. C-1"),
   }),
   execute: async ({ id }) => {
-    console.log("[tool] getCustomer", { id });
+    logToolCall("getCustomer", { id });
     return CUSTOMERS[id] ?? { error: `No customer found with id ${id}` };
   },
 });
@@ -58,7 +58,7 @@ export const getSupplier = tool({
     id: z.string().describe("The supplier id, e.g. S-1"),
   }),
   execute: async ({ id }) => {
-    console.log("[tool] getSupplier", { id });
+    logToolCall("getSupplier", { id });
     return SUPPLIERS[id] ?? { error: `No supplier found with id ${id}` };
   },
 });

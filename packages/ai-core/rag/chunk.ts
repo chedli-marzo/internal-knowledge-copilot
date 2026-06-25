@@ -1,10 +1,9 @@
 /**
- * Split long text into overlapping chunks (T1-5).
+ * Split long text into overlapping chunks.
  *
- * Why chunk: retrieval works best on small passages. A whole page is too coarse
- * (the relevant sentence gets drowned out); tiny fragments lose context. ~1000
- * chars with a little overlap keeps each chunk self-contained without cutting
- * ideas in half across the boundary.
+ * Retrieval works best on small passages: a whole page is too coarse, tiny
+ * fragments lose context. ~1000 chars with a little overlap keeps each chunk
+ * self-contained without cutting ideas across the boundary.
  */
 export function chunkText(text: string, chunkSize = 1000, overlap = 150): string[] {
   const clean = text.replace(/\s+/g, " ").trim();
@@ -16,7 +15,6 @@ export function chunkText(text: string, chunkSize = 1000, overlap = 150): string
   while (start < clean.length) {
     let end = Math.min(start + chunkSize, clean.length);
 
-    // Prefer to break at a space near the end so we don't split a word.
     if (end < clean.length) {
       const lastSpace = clean.lastIndexOf(" ", end);
       if (lastSpace > start + chunkSize * 0.5) end = lastSpace;
@@ -26,7 +24,7 @@ export function chunkText(text: string, chunkSize = 1000, overlap = 150): string
     if (piece) chunks.push(piece);
 
     if (end >= clean.length) break;
-    start = Math.max(0, end - overlap); // overlap so context carries across the cut
+    start = Math.max(0, end - overlap);
   }
 
   return chunks;

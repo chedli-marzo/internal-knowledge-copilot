@@ -1,11 +1,8 @@
 import { FileText } from "lucide-react";
 
-export type Citation = {
-  ref: number;
-  source: string | null;
-  page: number | null;
-  similarity: number;
-};
+import type { Citation } from "@ikc/ai-core/rag";
+
+export type { Citation };
 
 /** Small card showing one source the answer drew from. */
 export function CitationCard({ citation }: { citation: Citation }) {

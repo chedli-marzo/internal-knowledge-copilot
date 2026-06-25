@@ -2,6 +2,7 @@ import { streamText, convertToModelMessages, type UIMessage } from "ai";
 
 import { searchDocuments } from "@/lib/search";
 import { getLanguageModel, isProviderId } from "@ikc/ai-core/chat";
+import { buildRagContext, ragSystemPrompt } from "@ikc/ai-core/rag";
 
 /** Pull the plain text out of the latest user message (used as the search query). */
 function lastUserText(messages: UIMessage[]): string {
@@ -28,28 +29,14 @@ export async function POST(req: Request) {
       return Response.json({ error: "No question provided." }, { status: 400 });
     }
 
-    // Retrieve the top chunks for this question.
+    // Retrieve the top chunks (app-specific Prisma search), then let the shared
+    // RAG service turn them into a grounded prompt + citations.
     const hits = await searchDocuments(query, 5);
-
-    // Build a numbered context block + the matching citation list.
-    const context = hits
-      .map((h, i) => `[${i + 1}] (${h.source ?? "unknown"}${h.page ? `, p.${h.page}` : ""})\n${h.content}`)
-      .join("\n\n");
-
-    const citations = hits.map((h, i) => ({
-      ref: i + 1,
-      source: h.source,
-      page: h.page,
-      similarity: Number(h.similarity.toFixed(3)),
-    }));
+    const { context, citations } = buildRagContext(hits);
 
     const result = streamText({
       model: getLanguageModel(isProviderId(provider) ? provider : undefined),
-      system:
-        "You are a knowledge assistant. Answer the user's question using ONLY the " +
-        "context below. Cite the sources you use with their bracket number, e.g. [1]. " +
-        "If the answer is not in the context, say you don't know — do not make anything up.\n\n" +
-        `Context:\n${context}`,
+      system: ragSystemPrompt(context),
       messages: await convertToModelMessages(messages),
     });
 
