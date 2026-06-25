@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { MessageBubble } from "@/components/chat/message-bubble";
 import { ChatInput } from "@/components/chat/chat-input";
 import { EmptyState } from "@/components/chat/empty-state";
+import { ToolCall, isToolPart } from "@/components/chat/tool-call";
 
 /** Concatenate the text parts of a UIMessage into a single string. */
 function messageText(message: { parts: Array<{ type: string }> }): string {
@@ -41,11 +42,20 @@ export function Chat() {
           <EmptyState />
         ) : (
           <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6">
-            {messages.map((message) => (
-              <MessageBubble key={message.id} role={message.role as "user" | "assistant"}>
-                {messageText(message)}
-              </MessageBubble>
-            ))}
+            {messages.map((message) => {
+              const role = message.role as "user" | "assistant";
+              const toolParts = message.parts.filter(isToolPart);
+              const text = messageText(message);
+              return (
+                <div key={message.id} className="flex flex-col gap-2">
+                  {/* Tool calls the assistant made, shown above its answer. */}
+                  {toolParts.map((part, i) => (
+                    <ToolCall key={i} part={part} />
+                  ))}
+                  {text && <MessageBubble role={role}>{text}</MessageBubble>}
+                </div>
+              );
+            })}
 
             {/* Thinking indicator: request sent, no tokens yet. */}
             {status === "submitted" && (
