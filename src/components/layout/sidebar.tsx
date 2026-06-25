@@ -1,16 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  Database,
-  FileText,
-  MessageSquare,
-  Sparkles,
-  Boxes,
-} from "lucide-react";
+import { Database, FileText } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
@@ -30,48 +21,14 @@ function SectionTitle({
   );
 }
 
-const NAV_LINKS = [
-  { href: "/", label: "Chat", icon: MessageSquare },
-  { href: "/extract", label: "Extraction", icon: Sparkles },
-  { href: "/showcase", label: "UI Showcase", icon: Boxes },
-];
-
 /**
- * Left sidebar. Top: navigation between pages. Below: uploaded documents and
- * retrieved citations (scaffold — real content arrives in Step 5).
+ * Left sidebar. Holds uploaded documents and retrieved citations.
+ * Scaffold only — real document/citation content arrives in Step 5.
  */
 export function Sidebar() {
-  const pathname = usePathname();
-
   return (
     <ScrollArea className="h-full">
       <div className="flex flex-col gap-3 py-4">
-        <nav className="space-y-1 px-3">
-          {NAV_LINKS.map((link) => {
-            const Icon = link.icon;
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={isActive ? "page" : undefined}
-                className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
-                  "focus-visible:ring-ring outline-none focus-visible:ring-2",
-                  isActive
-                    ? "bg-primary text-primary-foreground"
-                    : "text-text-secondary hover:bg-surface-secondary hover:text-foreground"
-                )}
-              >
-                <Icon className="size-4" />
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <Separator className="mx-3 w-auto" />
-
         <section className="space-y-2">
           <SectionTitle icon={FileText}>Documents</SectionTitle>
           <p className="text-text-muted px-3 text-sm">
