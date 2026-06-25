@@ -1,11 +1,12 @@
 import { generateText, Output } from 'ai';
-import { google } from '@ai-sdk/google';
 
 import { extractionSchema } from '@/lib/schemas/extraction';
+import { getLanguageModel, isProviderId } from '@/lib/ai/providers';
 
 export async function POST(req: Request) {
   try {
-    const { text }: { text?: string } = await req.json();
+    const { text, provider }: { text?: string; provider?: string } =
+      await req.json();
 
     // Validate input before spending an AI call.
     if (!text || typeof text !== 'string' || text.trim().length === 0) {
@@ -18,7 +19,7 @@ export async function POST(req: Request) {
     // Output.object forces the model to return JSON matching extractionSchema,
     // then validates it against the schema (throws on mismatch).
     const { output } = await generateText({
-      model: google('gemini-2.5-flash'),
+      model: getLanguageModel(isProviderId(provider) ? provider : undefined),
       output: Output.object({
         schema: extractionSchema,
         name: 'extraction',

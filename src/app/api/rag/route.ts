@@ -1,7 +1,7 @@
 import { streamText, convertToModelMessages, type UIMessage } from "ai";
-import { google } from "@ai-sdk/google";
 
 import { searchDocuments } from "@/lib/search";
+import { getLanguageModel, isProviderId } from "@/lib/ai/providers";
 
 /** Pull the plain text out of the latest user message (used as the search query). */
 function lastUserText(messages: UIMessage[]): string {
@@ -20,7 +20,8 @@ function lastUserText(messages: UIMessage[]): string {
  */
 export async function POST(req: Request) {
   try {
-    const { messages }: { messages: UIMessage[] } = await req.json();
+    const { messages, provider }: { messages: UIMessage[]; provider?: string } =
+      await req.json();
     const query = lastUserText(messages);
 
     if (!query) {
@@ -43,7 +44,7 @@ export async function POST(req: Request) {
     }));
 
     const result = streamText({
-      model: google("gemini-2.5-flash"),
+      model: getLanguageModel(isProviderId(provider) ? provider : undefined),
       system:
         "You are a knowledge assistant. Answer the user's question using ONLY the " +
         "context below. Cite the sources you use with their bracket number, e.g. [1]. " +
