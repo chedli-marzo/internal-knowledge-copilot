@@ -8,6 +8,7 @@ import {
   MessageSquare,
   Sparkles,
   Boxes,
+  Wrench,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -32,6 +33,7 @@ function SectionTitle({
 
 const NAV_LINKS = [
   { href: "/", label: "Chat", icon: MessageSquare },
+  { href: "/tools", label: "Operations Assistant", icon: Wrench },
   { href: "/extract", label: "Extraction", icon: Sparkles },
   { href: "/showcase", label: "UI Showcase", icon: Boxes },
 ];
