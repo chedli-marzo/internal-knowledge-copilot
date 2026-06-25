@@ -11,7 +11,9 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.87",
     "@ai-sdk/google": "^3.0.83",
+    "@ai-sdk/groq": "^3.0.43",
     "@ai-sdk/openai": "^3.0.74",
     "@ai-sdk/react": "^3.0.211",
     "@prisma/adapter-pg": "^7.8.0",
