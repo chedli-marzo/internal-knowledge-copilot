@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { AlertCircle, Bot, BookOpen } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { MessageBubble } from "@/components/chat/message-bubble";
 import { ChatInput } from "@/components/chat/chat-input";
+import { ProviderSelect } from "@/components/chat/provider-select";
 import { UploadZone } from "@/components/copilot/upload-zone";
 import { CitationCard, type Citation } from "@/components/copilot/citation-card";
+import { DEFAULT_PROVIDER, type ProviderId } from "@/lib/ai/providers";
 
 function messageText(message: { parts: Array<{ type: string }> }): string {
   return message.parts
@@ -32,6 +33,7 @@ export function KnowledgeCopilot() {
   const { messages, sendMessage, status, error, stop } = useChat({
     transport: new DefaultChatTransport({ api: "/api/rag" }),
   });
+  const [provider, setProvider] = useState<ProviderId>(DEFAULT_PROVIDER);
 
   const isBusy = status === "submitted" || status === "streaming";
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -100,8 +102,12 @@ export function KnowledgeCopilot() {
         </div>
       </div>
 
+      <div className="border-border bg-background flex items-center justify-end border-t px-4 pt-2">
+        <ProviderSelect value={provider} onChange={setProvider} />
+      </div>
+
       <ChatInput
-        onSend={(text) => sendMessage({ text })}
+        onSend={(text) => sendMessage({ text }, { body: { provider } })}
         isStreaming={isBusy}
         onStop={stop}
       />
