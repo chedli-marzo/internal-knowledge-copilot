@@ -1,7 +1,7 @@
 import { streamText, UIMessage, convertToModelMessages, stepCountIs } from 'ai';
 
 import { businessTools } from '@/lib/tools/business-tools';
-import { getLanguageModel, isProviderId } from '@/lib/ai/providers';
+import { getLanguageModel, isProviderId } from '@ikc/ai-core/chat';
 
 export async function POST(req: Request) {
   try {

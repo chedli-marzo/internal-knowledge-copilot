@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import { embedDocuments } from "@/lib/embeddings";
+import { embedDocuments } from "@ikc/ai-core/embeddings";
 
 // Sample company-knowledge snippets to embed and store (stand-in for real docs).
 const SAMPLE_DOCS = [

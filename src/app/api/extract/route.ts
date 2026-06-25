@@ -1,7 +1,7 @@
 import { generateText, Output } from 'ai';
 
 import { extractionSchema } from '@/lib/schemas/extraction';
-import { getLanguageModel, isProviderId } from '@/lib/ai/providers';
+import { getLanguageModel, isProviderId } from '@ikc/ai-core/chat';
 
 export async function POST(req: Request) {
   try {

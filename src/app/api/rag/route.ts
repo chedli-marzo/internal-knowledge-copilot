@@ -1,7 +1,7 @@
 import { streamText, convertToModelMessages, type UIMessage } from "ai";
 
 import { searchDocuments } from "@/lib/search";
-import { getLanguageModel, isProviderId } from "@/lib/ai/providers";
+import { getLanguageModel, isProviderId } from "@ikc/ai-core/chat";
 
 /** Pull the plain text out of the latest user message (used as the search query). */
 function lastUserText(messages: UIMessage[]): string {

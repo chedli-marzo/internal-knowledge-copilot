@@ -1,7 +1,7 @@
 import { extractText } from "unpdf";
 
 import { prisma } from "@/lib/db";
-import { embedDocuments } from "@/lib/embeddings";
+import { embedDocuments } from "@ikc/ai-core/embeddings";
 import { chunkText } from "@/lib/chunk";
 
 /**

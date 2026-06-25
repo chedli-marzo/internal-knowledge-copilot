@@ -10,7 +10,7 @@ import { ChatInput } from "@/components/chat/chat-input";
 import { EmptyState } from "@/components/chat/empty-state";
 import { ToolCall, isToolPart } from "@/components/chat/tool-call";
 import { ProviderSelect } from "@/components/chat/provider-select";
-import { DEFAULT_PROVIDER, type ProviderId } from "@/lib/ai/providers";
+import { DEFAULT_PROVIDER, type ProviderId } from "@ikc/ai-core/chat";
 
 /** Concatenate the text parts of a UIMessage into a single string. */
 function messageText(message: { parts: Array<{ type: string }> }): string {

@@ -7,7 +7,7 @@ import {
   PROVIDERS,
   PROVIDER_LABELS,
   type ProviderId,
-} from "@/lib/ai/providers";
+} from "@ikc/ai-core/chat";
 
 /**
  * Runtime provider switch (T1-6). Lets the user pick which AI provider answers.

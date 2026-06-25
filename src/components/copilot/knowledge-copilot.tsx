@@ -10,7 +10,7 @@ import { ChatInput } from "@/components/chat/chat-input";
 import { ProviderSelect } from "@/components/chat/provider-select";
 import { UploadZone } from "@/components/copilot/upload-zone";
 import { CitationCard, type Citation } from "@/components/copilot/citation-card";
-import { DEFAULT_PROVIDER, type ProviderId } from "@/lib/ai/providers";
+import { DEFAULT_PROVIDER, type ProviderId } from "@ikc/ai-core/chat";
 
 function messageText(message: { parts: Array<{ type: string }> }): string {
   return message.parts

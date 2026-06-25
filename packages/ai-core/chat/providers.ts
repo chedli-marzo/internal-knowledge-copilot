@@ -5,28 +5,25 @@ import { anthropic } from "@ai-sdk/anthropic";
 import { groq } from "@ai-sdk/groq";
 
 /**
- * Provider abstraction (T1-6).
+ * Provider abstraction — the shared interface for choosing which AI provider
+ * answers. Callers use getLanguageModel(provider) and never import a provider
+ * directly, so swapping providers is a one-call, runtime change.
  *
- * A single shared interface for choosing which AI provider answers. The rest of
- * the app calls getLanguageModel(provider) and never imports a provider directly,
- * so swapping providers is a one-call change and we can switch at RUNTIME.
- *
- * NOTE: this is for the CHAT/answer model only. Embeddings stay on Google
- * (see embeddings.ts) because the database stores 768-dim Gemini vectors —
- * changing the embedding provider would change the dimensions and break search.
+ * Chat/answer models only. Embeddings stay on Google (see ../embeddings) because
+ * stored vectors have a fixed dimension.
  */
 
 export type ProviderId = "google" | "groq" | "openai" | "anthropic";
 
 export const PROVIDERS: ProviderId[] = ["google", "groq", "openai", "anthropic"];
 
-/** Default provider when none is requested. Override with AI_PROVIDER in .env. */
+/** Default provider when none is requested. Override with AI_PROVIDER in env. */
 export const DEFAULT_PROVIDER: ProviderId = isProviderId(process.env.AI_PROVIDER)
   ? process.env.AI_PROVIDER
   : "google";
 
-// Model ids per provider (overridable via env). Verify against each provider
-// before relying on it — ids change. Only Google has working credits here.
+// Model ids per provider (overridable via env). Verify against each provider —
+// ids change, and not every provider supports every feature.
 const MODEL_IDS: Record<ProviderId, string> = {
   google: process.env.GOOGLE_MODEL ?? "gemini-2.5-flash",
   groq: process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile",
@@ -34,7 +31,7 @@ const MODEL_IDS: Record<ProviderId, string> = {
   anthropic: process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-6",
 };
 
-/** Human-friendly labels for the UI switch. */
+/** Human-friendly labels for a UI switch. */
 export const PROVIDER_LABELS: Record<ProviderId, string> = {
   google: "Google Gemini",
   groq: "Groq (Llama)",

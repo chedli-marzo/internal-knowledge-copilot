@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import { embedQuery } from "@/lib/embeddings";
+import { embedQuery } from "@ikc/ai-core/embeddings";
 
 export type SearchHit = {
   id: string;
