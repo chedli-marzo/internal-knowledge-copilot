@@ -15,9 +15,14 @@ datasource db {
 // A chunk of source text plus its embedding (the meaning, as numbers).
 // The embedding column is `Unsupported` because Prisma Client can't read/write
 // vectors directly — we use raw SQL ($queryRaw/$executeRaw) for insert + search.
+// source/page/chunkIndex let the copilot CITE where an answer came from (T1-5).
+// They are optional so the T1-4 seed (plain text inserts) still works.
 model Document {
-  id        String                     @id @default(uuid())
-  content   String
-  embedding Unsupported("vector(768)") // 768 dims = Gemini text-embedding-004
-  createdAt DateTime                   @default(now())
+  id         String                     @id @default(uuid())
+  content    String
+  embedding  Unsupported("vector(768)") // 768 dims = Gemini gemini-embedding-001
+  source     String? // file/title the chunk came from
+  page       Int? // page number within that source (PDFs)
+  chunkIndex Int? // order of the chunk within its source
+  createdAt  DateTime                   @default(now())
 }
