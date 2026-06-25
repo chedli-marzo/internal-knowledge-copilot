@@ -1,0 +1,23 @@
+// Prisma schema — Knowledge Copilot (T1-4: Postgres + pgvector)
+// DATABASE_URL is read from .env via prisma.config.ts.
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [vector] // pgvector — adds the `vector` column type + similarity search
+}
+
+// A chunk of source text plus its embedding (the meaning, as numbers).
+// The embedding column is `Unsupported` because Prisma Client can't read/write
+// vectors directly — we use raw SQL ($queryRaw/$executeRaw) for insert + search.
+model Document {
+  id        String                     @id @default(uuid())
+  content   String
+  embedding Unsupported("vector(768)") // 768 dims = Gemini text-embedding-004
+  createdAt DateTime                   @default(now())
+}
