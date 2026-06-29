@@ -2,20 +2,19 @@ import { embed, embedMany } from "ai";
 import { google } from "@ai-sdk/google";
 
 /**
- * Embedding helpers (T1-4).
+ * Shared embedding service. Turns text into vectors for semantic search.
  *
- * An embedding turns text into a list of numbers (a vector) capturing its
- * meaning. We use Gemini's embedding model at 768 dimensions to match the
- * `vector(768)` column in the schema.
+ * Fixed to Google at 768 dims so it matches a `vector(768)` column. Embeddings
+ * are intentionally NOT provider-switchable — changing the model changes the
+ * vector size and breaks any vectors already stored.
  *
  * taskType tunes the vector for its job: RETRIEVAL_DOCUMENT for stored text,
- * RETRIEVAL_QUERY for the user's question. Matching them improves search quality.
+ * RETRIEVAL_QUERY for the user's question.
  */
 
 export const EMBEDDING_DIMENSIONS = 768;
 const model = google.textEmbedding("gemini-embedding-001");
 
-// Per-call provider options: request 768 dims + the right retrieval taskType.
 const docOptions = {
   google: { outputDimensionality: EMBEDDING_DIMENSIONS, taskType: "RETRIEVAL_DOCUMENT" },
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { AlertCircle, Bot } from "lucide-react";
 
@@ -9,6 +9,8 @@ import { MessageBubble } from "@/components/chat/message-bubble";
 import { ChatInput } from "@/components/chat/chat-input";
 import { EmptyState } from "@/components/chat/empty-state";
 import { ToolCall, isToolPart } from "@/components/chat/tool-call";
+import { ProviderSelect } from "@/components/chat/provider-select";
+import { DEFAULT_PROVIDER, type ProviderId } from "@ikc/ai-core/chat";
 
 /** Concatenate the text parts of a UIMessage into a single string. */
 function messageText(message: { parts: Array<{ type: string }> }): string {
@@ -25,6 +27,7 @@ function messageText(message: { parts: Array<{ type: string }> }): string {
 export function Chat() {
   const { messages, sendMessage, status, error, stop, regenerate, clearError } =
     useChat();
+  const [provider, setProvider] = useState<ProviderId>(DEFAULT_PROVIDER);
 
   const isBusy = status === "submitted" || status === "streaming";
   const isEmpty = messages.length === 0;
@@ -94,8 +97,12 @@ export function Chat() {
         )}
       </div>
 
+      <div className="border-border bg-background flex items-center justify-end border-t px-4 pt-2 pb-0">
+        <ProviderSelect value={provider} onChange={setProvider} />
+      </div>
+
       <ChatInput
-        onSend={(text) => sendMessage({ text })}
+        onSend={(text) => sendMessage({ text }, { body: { provider } })}
         isStreaming={isBusy}
         onStop={stop}
       />

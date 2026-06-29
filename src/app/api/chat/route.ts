@@ -1,20 +1,21 @@
 import { streamText, UIMessage, convertToModelMessages, stepCountIs } from 'ai';
-import { google } from '@ai-sdk/google';
 
 import { businessTools } from '@/lib/tools/business-tools';
+import { getLanguageModel, isProviderId } from '@ikc/ai-core/chat';
 
 export async function POST(req: Request) {
   try {
-    const { messages }: { messages: UIMessage[] } = await req.json();
+    const { messages, provider }: { messages: UIMessage[]; provider?: string } =
+      await req.json();
 
     if (!messages || messages.length === 0) {
       return Response.json({ error: 'No messages provided.' }, { status: 400 });
     }
 
     const result = streamText({
-      // Google Gemini (free tier, no card). Uses GOOGLE_GENERATIVE_AI_API_KEY
-      // from .env automatically.
-      model: google('gemini-2.5-flash'),
+      // Runtime provider switch: use the requested provider if valid, else the
+      // env default. Provider-agnostic — see lib/ai/providers.ts.
+      model: getLanguageModel(isProviderId(provider) ? provider : undefined),
       system:
         'You are an operations assistant. Use the available tools to look up ' +
         'orders, customers, and suppliers when the user asks about them. ' +

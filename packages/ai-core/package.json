@@ -1,0 +1,21 @@
+{
+  "name": "@ikc/ai-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Reusable AI building blocks: provider abstraction, embeddings, tools, RAG.",
+  "exports": {
+    "./chat": "./chat/index.ts",
+    "./embeddings": "./embeddings/index.ts",
+    "./rag": "./rag/index.ts",
+    "./tools": "./tools/index.ts"
+  },
+  "dependencies": {
+    "ai": "^6.0.209",
+    "@ai-sdk/google": "^3.0.83",
+    "@ai-sdk/openai": "^3.0.74",
+    "@ai-sdk/anthropic": "^3.0.87",
+    "@ai-sdk/groq": "^3.0.43",
+    "zod": "^4.4.3"
+  }
+}

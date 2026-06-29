@@ -11,9 +11,12 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.87",
     "@ai-sdk/google": "^3.0.83",
+    "@ai-sdk/groq": "^3.0.43",
     "@ai-sdk/openai": "^3.0.74",
     "@ai-sdk/react": "^3.0.211",
+    "@ikc/ai-core": "workspace:*",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "ai": "^6.0.209",
@@ -27,6 +30,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "tailwind-merge": "^3.6.0",
+    "unpdf": "^1.6.2",
     "zod": "^4.4.3"
   },
   "devDependencies": {
